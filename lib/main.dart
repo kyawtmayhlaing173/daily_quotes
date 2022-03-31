@@ -1,5 +1,6 @@
 import 'package:daily_quotes/constants/app_constants.dart';
 import 'package:daily_quotes/screens/quote_detail.dart';
+import 'package:daily_quotes/widgets/bottom_tab_bar_widget.dart';
 import 'package:flutter/material.dart';
 
 void main() {
@@ -19,10 +20,10 @@ class MyApp extends StatelessWidget {
           primary: kPrimaryColor,
         ),
       ),
-      home: const QuoteDetail(),
-      // home: const BottomTabBarWidget(
-      //   title: "Daily Quotes",
-      // ),
+      // home: const QuoteDetail(),
+      home: const BottomTabBarWidget(
+        title: "Daily Quotes",
+      ),
     );
   }
 }
