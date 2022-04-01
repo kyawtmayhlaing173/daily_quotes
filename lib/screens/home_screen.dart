@@ -1,7 +1,9 @@
 import 'package:daily_quotes/constants/app_constants.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:google_fonts/google_fonts.dart';
-import 'package:jiffy/jiffy.dart';
+
+import '../cubit/quotes_cubit.dart';
 
 class HomeScreen extends StatefulWidget {
   const HomeScreen({Key? key}) : super(key: key);
@@ -12,13 +14,10 @@ class HomeScreen extends StatefulWidget {
 
 class _HomeScreenState extends State<HomeScreen> with TickerProviderStateMixin {
   String formattedDate = '';
+  List dailyQuote = [];
+
   @override
   void initState() {
-    DateTime now = DateTime.now();
-    print("Hello $now");
-    setState(() {
-      formattedDate = Jiffy([now.year, now.month, now.day]).yMMMMd;
-    });
     super.initState();
   }
 
@@ -29,7 +28,8 @@ class _HomeScreenState extends State<HomeScreen> with TickerProviderStateMixin {
       body: SafeArea(
           child: SingleChildScrollView(
         child: Padding(
-          padding: const EdgeInsets.all(10),
+          padding:
+              const EdgeInsets.only(left: 20, right: 20, top: 10, bottom: 10),
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
@@ -38,7 +38,10 @@ class _HomeScreenState extends State<HomeScreen> with TickerProviderStateMixin {
                 style: GoogleFonts.ptSans(
                     fontWeight: FontWeight.bold, fontSize: 30),
               ),
+              const SizedBox(height: 5),
               _tabContainer(_tabController),
+              const SizedBox(height: 20),
+              _quotesContainer(),
             ],
           ),
         ),
@@ -61,43 +64,46 @@ class _HomeScreenState extends State<HomeScreen> with TickerProviderStateMixin {
             borderSide: BorderSide(width: 2.0, color: kPrimaryColor),
           ),
           tabs: const [
-            Tab(text: 'FOR YOU'),
-            Tab(text: 'LATEST'),
-            Tab(text: 'MEME'),
+            Tab(
+              child: Text(
+                "FOR YOU",
+                style: TextStyle(fontWeight: FontWeight.bold),
+              ),
+            ),
+            Tab(
+              child: Text(
+                "LATEST",
+                style: TextStyle(fontWeight: FontWeight.bold),
+              ),
+            ),
+            Tab(
+              child: Text(
+                "MEME",
+                style: TextStyle(fontWeight: FontWeight.bold),
+              ),
+            ),
           ],
         ),
       ),
     );
   }
-}
 
-class CircleTabIndicator extends Decoration {
-  final Color color;
-  double radius;
-
-  CircleTabIndicator({required this.color, required this.radius});
-
-  @override
-  BoxPainter createBoxPainter([VoidCallback? onChanged]) {
-    return CirclePainter(color, radius);
-  }
-}
-
-class CirclePainter extends BoxPainter {
-  final Color color;
-  double radius;
-
-  CirclePainter(this.color, this.radius);
-
-  @override
-  void paint(Canvas canvas, Offset offset, ImageConfiguration configuration) {
-    Paint _paint = Paint();
-    _paint.color = color;
-    _paint.isAntiAlias = true;
-    final Offset circleOffset = Offset(
-        configuration.size!.width / 2 - radius / 2,
-        configuration.size!.height - radius);
-
-    canvas.drawCircle(offset + circleOffset, radius, _paint);
+  Widget _quotesContainer() {
+    return BlocBuilder<QuotesCubit, QuotesState>(
+      builder: (context, state) {
+        if (state is QuotesFetched) {
+          return Container(
+            child: Text(state.quotes[0]['body']),
+          );
+        } else if (state is QuotesFetching) {
+          return const Center(
+            child: CircularProgressIndicator(),
+          );
+        }
+        return Container(
+          child: const Text("404 Not Found"),
+        );
+      },
+    );
   }
 }
