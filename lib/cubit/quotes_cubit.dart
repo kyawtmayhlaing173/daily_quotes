@@ -30,8 +30,10 @@ class QuotesCubit extends Cubit<QuotesState> {
       Map<String, dynamic> map = json.decode(response.body);
       List<dynamic> data = map["quotes"];
       quotes = data;
+      print("Quotes Fetched");
       emit(QuotesFetched(quotes));
     } else {
+      print("Quotes Error");
       emit(QuotesError());
     }
   }
