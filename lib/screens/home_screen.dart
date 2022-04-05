@@ -36,10 +36,8 @@ class _HomeScreenState extends State<HomeScreen> with TickerProviderStateMixin {
                 style: GoogleFonts.ptSans(
                     fontWeight: FontWeight.bold, fontSize: 30),
               ),
-              const SizedBox(height: 5),
-              _tabContainer(_tabController),
               const SizedBox(height: 20),
-              _tabViewContainer(_tabController),
+              const QuotesListScreen(),
             ],
           ),
         ),
@@ -52,7 +50,7 @@ class _HomeScreenState extends State<HomeScreen> with TickerProviderStateMixin {
       alignment: Alignment.centerLeft,
       child: TabBar(
         controller: _tabController,
-        isScrollable: true,
+        // isScrollable: true,
         labelPadding: const EdgeInsets.only(left: 10, right: 10),
         unselectedLabelColor: Colors.grey,
         labelColor: kPrimaryColor,
