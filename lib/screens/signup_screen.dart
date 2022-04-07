@@ -1,4 +1,5 @@
 import 'package:daily_quotes/constants/app_constants.dart';
+import 'package:daily_quotes/screens/login_screen.dart';
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 
@@ -11,6 +12,8 @@ class SignUpScreen extends StatefulWidget {
 
 class _SignUpScreenState extends State<SignUpScreen> {
   bool isChecked = false;
+  TextStyle textStyle = GoogleFonts.montserrat(color: Colors.black);
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -45,6 +48,9 @@ class _SignUpScreenState extends State<SignUpScreen> {
                 _forgotPasswordWidget(),
                 const SizedBox(height: 50),
                 _createAccountButtonWidget(),
+                Expanded(child: Container()),
+                _loginTextWidget(),
+                const SizedBox(height: 30),
               ],
             ),
           ),
@@ -81,6 +87,34 @@ class _SignUpScreenState extends State<SignUpScreen> {
             RoundedRectangleBorder(
               borderRadius: BorderRadius.circular(10),
             ),
+          ),
+        ),
+      ),
+    );
+  }
+
+  Widget _loginTextWidget() {
+    return Center(
+      child: GestureDetector(
+        onTap: () {
+          Navigator.push(
+            context,
+            MaterialPageRoute(
+              builder: (context) => const LoginScreen(),
+            ),
+          );
+        },
+        child: RichText(
+          text: TextSpan(
+            children: [
+              TextSpan(text: "Already have an account? ", style: textStyle),
+              TextSpan(
+                text: "Login",
+                style: GoogleFonts.montserrat(
+                  color: kTextColor,
+                ),
+              ),
+            ],
           ),
         ),
       ),
