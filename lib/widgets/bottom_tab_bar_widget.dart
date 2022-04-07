@@ -1,3 +1,5 @@
+import 'package:daily_quotes/screens/login_screen.dart';
+import 'package:daily_quotes/screens/signup_screen.dart';
 import 'package:flutter/material.dart';
 
 import '../constants/app_constants.dart';
@@ -24,10 +26,8 @@ class _BottomTabBarWidgetState extends State<BottomTabBarWidget> {
       'Index 1: Business',
       style: optionStyle,
     ),
-    Text(
-      'Index 2: School',
-      style: optionStyle,
-    ),
+    LoginScreen(),
+    // SignUpScreen(),
     Text(
       'Index 3: University',
       style: optionStyle,
