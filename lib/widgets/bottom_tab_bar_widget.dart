@@ -27,9 +27,9 @@ class _BottomTabBarWidgetState extends State<BottomTabBarWidget> {
       'Index 1: Business',
       style: optionStyle,
     ),
-    // LoginScreen(),
+    LoginScreen(),
     // SignUpScreen(),
-    ProfileScreen(),
+    // ProfileScreen(),
     Text(
       'Index 3: University',
       style: optionStyle,
