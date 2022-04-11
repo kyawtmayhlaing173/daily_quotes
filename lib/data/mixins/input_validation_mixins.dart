@@ -5,8 +5,10 @@ mixin InputValidationMixin {
   }
 
   String? isPasswordValid({required String password}) {
+    // RegExp pattern = RegExp(
+    //     "r'^(?=.*?[A-Z])(?=.*?[a-z])(?=.*?[0-9])(?=.*?[!@#\$&*~]).{8,}\$");
     RegExp pattern = RegExp(
-        "r'^(?=.*?[A-Z])(?=.*?[a-z])(?=.*?[0-9])(?=.*?[!@#\$&*~]).{8,}\$");
+        '^(?=.*[a-z])(?=.*[A-Z])(?=.*[0-9])[A-Za-z0-9{};:=<>_+-^#\$@!%*?&.\/()¶∆√π÷×~|%£©®™℅¢€\'\"„”—…·¡¿±÷°•`´¥]+\$');
 
     if (password.isEmpty) {
       return "Password should not be empty";

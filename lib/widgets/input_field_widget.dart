@@ -6,9 +6,11 @@ import 'package:flutter/material.dart';
 
 class InputField extends StatefulWidget with InputValidationMixin {
   final String hintText;
+  final TextEditingController controller;
   const InputField({
     Key? key,
     required this.hintText,
+    required this.controller,
   }) : super(key: key);
 
   @override
@@ -19,7 +21,9 @@ class _InputFieldState extends State<InputField> {
   @override
   Widget build(BuildContext context) {
     return TextFormField(
+      controller: widget.controller,
       style: GoogleFonts.montserrat(color: Colors.black, fontSize: 14),
+      obscureText: widget.hintText == 'Password' ? true : false,
       decoration: InputDecoration(
         border: OutlineInputBorder(
           borderRadius: BorderRadius.circular(10),

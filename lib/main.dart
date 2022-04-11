@@ -28,7 +28,7 @@ class MyApp extends StatelessWidget {
           ),
           BlocProvider(
             create: (authBloc) => AuthBloc(
-              authRepository: RepositoryProvider.of<AuthRepository>(context),
+              authRepository: RepositoryProvider.of<AuthRepository>(authBloc),
             ),
           ),
         ],
