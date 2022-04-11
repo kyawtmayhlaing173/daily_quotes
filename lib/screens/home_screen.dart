@@ -1,4 +1,3 @@
-import 'package:daily_quotes/constants/app_constants.dart';
 import 'package:daily_quotes/screens/quotes_list_screen.dart';
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
@@ -21,7 +20,6 @@ class _HomeScreenState extends State<HomeScreen> with TickerProviderStateMixin {
 
   @override
   Widget build(BuildContext context) {
-    TabController _tabController = TabController(vsync: this, length: 3);
     return Scaffold(
       body: SafeArea(
           child: SingleChildScrollView(
@@ -42,58 +40,6 @@ class _HomeScreenState extends State<HomeScreen> with TickerProviderStateMixin {
           ),
         ),
       )),
-    );
-  }
-
-  Widget _tabContainer(TabController _tabController) {
-    return Align(
-      alignment: Alignment.centerLeft,
-      child: TabBar(
-        controller: _tabController,
-        // isScrollable: true,
-        labelPadding: const EdgeInsets.only(left: 10, right: 10),
-        unselectedLabelColor: Colors.grey,
-        labelColor: kPrimaryColor,
-        indicatorSize: TabBarIndicatorSize.label,
-        indicator: const UnderlineTabIndicator(
-          borderSide: BorderSide(width: 2.0, color: kPrimaryColor),
-        ),
-        tabs: const [
-          Tab(
-            child: Text(
-              "FOR YOU",
-              style: TextStyle(fontWeight: FontWeight.bold),
-            ),
-          ),
-          Tab(
-            child: Text(
-              "LATEST",
-              style: TextStyle(fontWeight: FontWeight.bold),
-            ),
-          ),
-          Tab(
-            child: Text(
-              "MEME",
-              style: TextStyle(fontWeight: FontWeight.bold),
-            ),
-          ),
-        ],
-      ),
-    );
-  }
-
-  Widget _tabViewContainer(TabController _tabController) {
-    return SizedBox(
-      width: double.maxFinite,
-      height: double.maxFinite,
-      child: TabBarView(
-        controller: _tabController,
-        children: const [
-          QuotesListScreen(),
-          Text("Good afternoon"),
-          Text("Good night")
-        ],
-      ),
     );
   }
 }
