@@ -28,19 +28,7 @@ class _SignUpScreenState extends State<SignUpScreen> {
   Widget build(BuildContext context) {
     return Scaffold(
       body: BlocConsumer<AuthBloc, AuthState>(
-        listener: (context, state) {
-          if (state is Authenticated) {
-            Navigator.pushReplacement(
-              context,
-              MaterialPageRoute(
-                builder: ((context) => const ProfileScreen()),
-              ),
-            );
-          }
-          if (state is AuthError) {
-            log("State is Error");
-          }
-        },
+        listener: (context, state) {},
         builder: (context, state) {
           if (state is Loading) {
             log("State is Loading");
@@ -57,6 +45,15 @@ class _SignUpScreenState extends State<SignUpScreen> {
                     child: Column(
                       crossAxisAlignment: CrossAxisAlignment.start,
                       children: [
+                        const Text(
+                          "Cancel",
+                          style: TextStyle(
+                            fontSize: 14,
+                            fontWeight: FontWeight.bold,
+                            color: Color(0xFF787A91),
+                          ),
+                        ),
+                        const SizedBox(height: 10),
                         const Text(
                           "Create a New Account",
                           style: TextStyle(

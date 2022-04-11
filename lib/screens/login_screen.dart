@@ -2,7 +2,6 @@ import 'dart:developer';
 
 import 'package:daily_quotes/bloc/bloc/auth_bloc.dart';
 import 'package:daily_quotes/constants/app_constants.dart';
-import 'package:daily_quotes/screens/profile_screen.dart';
 import 'package:daily_quotes/screens/signup_screen.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
@@ -27,20 +26,7 @@ class _LoginScreenState extends State<LoginScreen> {
   Widget build(BuildContext context) {
     return Scaffold(
       body: BlocConsumer<AuthBloc, AuthState>(
-        listener: (context, state) {
-          if (state is Authenticated) {
-            log("State is Authenticated");
-            Navigator.pushReplacement(
-              context,
-              MaterialPageRoute(
-                builder: (context) => const ProfileScreen(),
-              ),
-            );
-          }
-          if (state is AuthError) {
-            log("State is Error");
-          }
-        },
+        listener: (context, state) {},
         builder: (context, state) {
           if (state is Loading) {
             log("State is Loading");
@@ -131,13 +117,14 @@ class _LoginScreenState extends State<LoginScreen> {
           if (_formKey.currentState!.validate()) {
             BlocProvider.of<AuthBloc>(context).add(
               SignInRequested(
-                  email: _emailController.text,
-                  password: _passwordController.text),
+                email: _emailController.text,
+                password: _passwordController.text,
+              ),
             );
           }
         },
         child: const Text(
-          "Create Account",
+          "Log In",
           style: TextStyle(fontSize: 16),
         ),
         style: ButtonStyle(

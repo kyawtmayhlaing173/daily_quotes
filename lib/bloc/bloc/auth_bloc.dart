@@ -1,3 +1,5 @@
+import 'dart:developer';
+
 import 'package:bloc/bloc.dart';
 import 'package:daily_quotes/data/repositories/auth_repository.dart';
 import 'package:equatable/equatable.dart';
@@ -14,6 +16,7 @@ class AuthBloc extends Bloc<AuthEvent, AuthState> {
       try {
         await authRepository.signIn(
             email: event.email, password: event.password);
+        log("Signin requested");
         emit(Authenticated());
       } catch (e) {
         emit(AuthError(e.toString()));
@@ -36,6 +39,7 @@ class AuthBloc extends Bloc<AuthEvent, AuthState> {
     on<SignOutRequested>((event, emit) async {
       emit(Loading());
       await authRepository.signOut();
+      log("Signout is requested");
       emit(UnAuthenticated());
     });
   }

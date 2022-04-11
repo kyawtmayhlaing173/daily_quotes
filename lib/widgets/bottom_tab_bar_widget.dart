@@ -1,6 +1,7 @@
 import 'package:daily_quotes/screens/login_screen.dart';
 import 'package:daily_quotes/screens/profile_screen.dart';
 import 'package:daily_quotes/screens/signup_screen.dart';
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 
 import '../constants/app_constants.dart';
@@ -21,16 +22,21 @@ class _BottomTabBarWidgetState extends State<BottomTabBarWidget> {
   static const TextStyle optionStyle =
       TextStyle(fontSize: 30, fontWeight: FontWeight.bold);
 
-  static const List<Widget> _widgetOptions = <Widget>[
-    HomeScreen(),
-    Text(
+  static final List<Widget> _widgetOptions = <Widget>[
+    const HomeScreen(),
+    const Text(
       'Index 1: Business',
       style: optionStyle,
     ),
-    LoginScreen(),
-    // SignUpScreen(),
-    // ProfileScreen(),
-    Text(
+    StreamBuilder(
+        stream: FirebaseAuth.instance.authStateChanges(),
+        builder: (context, snapshot) {
+          if (snapshot.hasData) {
+            return const ProfileScreen();
+          }
+          return const LoginScreen();
+        }),
+    const Text(
       'Index 3: University',
       style: optionStyle,
     ),

@@ -1,6 +1,11 @@
+import 'dart:developer';
+
 import 'package:daily_quotes/constants/app_constants.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:google_fonts/google_fonts.dart';
+
+import '../bloc/bloc/auth_bloc.dart';
 
 class ProfileScreen extends StatefulWidget {
   const ProfileScreen({Key? key}) : super(key: key);
@@ -37,6 +42,33 @@ class _ProfileScreenState extends State<ProfileScreen> {
                 borderRadius: BorderRadius.circular(20),
               ),
               child: _profileCardWidget(),
+            ),
+          ),
+          Positioned(
+            bottom: 30,
+            child: SizedBox(
+              width: MediaQuery.of(context).size.width / 2,
+              height: 55,
+              child: ElevatedButton(
+                onPressed: () {
+                  log("Logged out button is pressed");
+                  // BlocProvider.of<AuthBloc>(context).add(SignOutRequested());
+                  BlocProvider.of<AuthBloc>(context).add(
+                    SignOutRequested(),
+                  );
+                },
+                child: const Text(
+                  "Log Out",
+                  style: TextStyle(fontSize: 16),
+                ),
+                style: ButtonStyle(
+                  shape: MaterialStateProperty.all(
+                    RoundedRectangleBorder(
+                      borderRadius: BorderRadius.circular(10),
+                    ),
+                  ),
+                ),
+              ),
             ),
           ),
         ],
