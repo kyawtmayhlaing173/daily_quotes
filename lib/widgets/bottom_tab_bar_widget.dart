@@ -1,9 +1,10 @@
 import 'package:daily_quotes/screens/login_screen.dart';
 import 'package:daily_quotes/screens/profile_screen.dart';
-import 'package:daily_quotes/screens/signup_screen.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 
+import '../bloc/bloc/auth_bloc.dart';
 import '../constants/app_constants.dart';
 import '../fab_button_app_bar.dart';
 import '../screens/home_screen.dart';
@@ -28,14 +29,20 @@ class _BottomTabBarWidgetState extends State<BottomTabBarWidget> {
       'Index 1: Business',
       style: optionStyle,
     ),
-    StreamBuilder(
-        stream: FirebaseAuth.instance.authStateChanges(),
-        builder: (context, snapshot) {
-          if (snapshot.hasData) {
-            return const ProfileScreen();
-          }
+    BlocBuilder<AuthBloc, AuthState>(
+      builder: (context, state) {
+        if (FirebaseAuth.instance.currentUser != null) {
+          return const ProfileScreen();
+        } else if (state is UnAuthenticated) {
           return const LoginScreen();
-        }),
+        } else if (state is Authenticated) {
+          return const ProfileScreen();
+        }
+        return const Center(
+          child: CircularProgressIndicator(),
+        );
+      },
+    ),
     const Text(
       'Index 3: University',
       style: optionStyle,

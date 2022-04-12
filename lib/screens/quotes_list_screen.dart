@@ -55,7 +55,6 @@ class _QuotesListScreenState extends State<QuotesListScreen> {
   }
 
   _quoteContainer(quote) {
-    print("Quote is, ${quote.quote}");
     return Container(
       padding: const EdgeInsets.all(15),
       margin: const EdgeInsets.all(5),

@@ -17,7 +17,6 @@ class QuotesCubit extends Cubit<QuotesState> {
   }
 
   fetchDailyQuotes() async {
-    print('Fetch Daily Quotes');
     QuerySnapshot<Map<String, dynamic>> snapshot =
         await firestore.collection("quotes").get();
     quotes = snapshot.docs
