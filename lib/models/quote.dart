@@ -1,45 +1,48 @@
 import 'dart:convert';
 
+import 'package:cloud_firestore/cloud_firestore.dart';
+
 class Quote {
   String quote;
-  String author;
-  String dialouge;
-  String timestamp;
+  String source;
+  Timestamp timestamp;
   Quote({
     required this.quote,
-    required this.author,
-    required this.dialouge,
+    required this.source,
     required this.timestamp,
   });
 
   Quote copyWith({
     String? quote,
-    String? author,
-    String? dialouge,
-    String? timestamp,
+    String? source,
+    Timestamp? timestamp,
   }) {
     return Quote(
       quote: quote ?? this.quote,
-      author: author ?? this.author,
-      dialouge: dialouge ?? this.dialouge,
-      timestamp: timestamp ?? this.timestamp,
+      source: source ?? this.source,
+      timestamp: timestamp ?? Timestamp.fromDate(DateTime.now()),
+
+      // timestamp: timestamp ?? Timestamp.fromDate(DateTime.now()),
     );
   }
 
   Map<String, dynamic> toMap() {
     return {
       'quote': quote,
-      'author': author,
-      'dialouge': dialouge,
+      'source': source,
       'timestamp': timestamp,
     };
   }
 
+  Quote.fromDocumentSnapshot(DocumentSnapshot<Map<String, dynamic>> doc)
+      : quote = doc.data()!["quote"],
+        source = doc.data()!["source"],
+        timestamp = doc.data()!["timestamp"];
+
   factory Quote.fromMap(Map<String, dynamic> map) {
     return Quote(
       quote: map['quote'] ?? '',
-      author: map['author'] ?? '',
-      dialouge: map['dialouge'] ?? '',
+      source: map['source'] ?? '',
       timestamp: map['timestamp'] ?? '',
     );
   }
@@ -50,7 +53,7 @@ class Quote {
 
   @override
   String toString() {
-    return 'Quote(quote: $quote, author: $author, dialouge: $dialouge, timestamp: $timestamp)';
+    return 'Quote(quote: $quote, source: $source, timestamp: $timestamp)';
   }
 
   @override
@@ -59,16 +62,12 @@ class Quote {
 
     return other is Quote &&
         other.quote == quote &&
-        other.author == author &&
-        other.dialouge == dialouge &&
+        other.source == source &&
         other.timestamp == timestamp;
   }
 
   @override
   int get hashCode {
-    return quote.hashCode ^
-        author.hashCode ^
-        dialouge.hashCode ^
-        timestamp.hashCode;
+    return quote.hashCode ^ source.hashCode ^ timestamp.hashCode;
   }
 }

@@ -6,13 +6,13 @@ abstract class QuotesState {}
 class QuotesInitial extends QuotesState {}
 
 class QuotesFetched extends QuotesState {
-  List<dynamic> quotes;
+  List<Quote> quotes;
   QuotesFetched(
     this.quotes,
   );
 
   QuotesFetched copyWith({
-    List<dynamic>? quotes,
+    List<Quote>? quotes,
   }) {
     return QuotesFetched(
       quotes ?? this.quotes,
@@ -27,7 +27,7 @@ class QuotesFetched extends QuotesState {
 
   factory QuotesFetched.fromMap(Map<String, dynamic> map) {
     return QuotesFetched(
-      List<dynamic>.from(map['quotes']?.map((x) => Quote.fromMap(x))),
+      List<Quote>.from(map['quotes']?.map((x) => Quote.fromMap(x))),
     );
   }
 
