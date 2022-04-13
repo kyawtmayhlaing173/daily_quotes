@@ -1,3 +1,4 @@
+import 'package:daily_quotes/screens/add_quotes_screen.dart';
 import 'package:daily_quotes/screens/login_screen.dart';
 import 'package:daily_quotes/screens/profile_screen.dart';
 import 'package:firebase_auth/firebase_auth.dart';
@@ -25,10 +26,7 @@ class _BottomTabBarWidgetState extends State<BottomTabBarWidget> {
 
   static final List<Widget> _widgetOptions = <Widget>[
     const HomeScreen(),
-    const Text(
-      'Index 1: Business',
-      style: optionStyle,
-    ),
+    const AddQuoteScreen(),
     BlocBuilder<AuthBloc, AuthState>(
       builder: (context, state) {
         if (FirebaseAuth.instance.currentUser != null) {
@@ -82,7 +80,14 @@ class _BottomTabBarWidgetState extends State<BottomTabBarWidget> {
       floatingActionButton: Padding(
         padding: const EdgeInsets.only(bottom: 10.0),
         child: FloatingActionButton(
-          onPressed: () {},
+          onPressed: () {
+            Navigator.push(
+              context,
+              MaterialPageRoute(
+                builder: (context) => const AddQuoteScreen(),
+              ),
+            );
+          },
           child: const Icon(Icons.add),
           elevation: 2.0,
         ),
