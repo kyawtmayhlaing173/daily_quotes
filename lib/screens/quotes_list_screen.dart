@@ -23,7 +23,12 @@ class _QuotesListScreenState extends State<QuotesListScreen> {
   Widget _quotesContainer() {
     return BlocBuilder<QuotesCubit, QuotesState>(
       builder: (context, state) {
-        if (state is QuotesFetched) {
+        if (state is QuotesInitial) {
+          context.read<QuotesCubit>().fetchDailyQuotes();
+          return const Center(
+            child: CircularProgressIndicator(),
+          );
+        } else if (state is QuotesFetched) {
           return _quotesListContainer(state.quotes);
         } else if (state is QuotesFetching) {
           return const Center(

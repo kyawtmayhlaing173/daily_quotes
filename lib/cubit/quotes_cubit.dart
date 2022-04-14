@@ -1,6 +1,7 @@
 import 'dart:convert';
 import 'package:bloc/bloc.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:daily_quotes/repositories/data_repository.dart';
 import 'package:flutter/foundation.dart';
 
 import '../models/quote.dart';
@@ -10,18 +11,19 @@ part 'quotes_state.dart';
 class QuotesCubit extends Cubit<QuotesState> {
   List<Quote> quotes = [];
   final FirebaseFirestore firestore = FirebaseFirestore.instance;
+  QuoteRepository quoteRepository = QuoteRepository();
 
-  QuotesCubit() : super(QuotesInitial()) {
-    fetchDailyQuotes();
-  }
+  QuotesCubit(this.quoteRepository) : super(QuotesInitial());
 
   fetchDailyQuotes() async {
-    QuerySnapshot<Map<String, dynamic>> snapshot =
-        await firestore.collection("quotes").get();
-    quotes = snapshot.docs
-        .map((docSnapshot) => Quote.fromDocumentSnapshot(docSnapshot))
-        .toList();
-    emit(QuotesFetched(quotes));
+    print("Fetch 1");
+    try {
+      quotes = await quoteRepository.fetchDailyQuotes();
+      print("Quotes are, $quotes");
+      emit(QuotesFetched(quotes));
+    } catch (e) {
+      emit(QuotesError());
+    }
   }
 
   // fetchDailyQuotes() async {

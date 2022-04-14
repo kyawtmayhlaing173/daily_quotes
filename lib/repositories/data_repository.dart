@@ -1,6 +1,11 @@
-import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:daily_quotes/services/quotes_service.dart';
+import '../models/quote.dart';
 
-class DataRepository {
-  final CollectionReference collection =
-      FirebaseFirestore.instance.collection('quotes');
+class QuoteRepository implements QuoteService {
+  QuoteService quoteService = QuoteService();
+
+  @override
+  Future<List<Quote>> fetchDailyQuotes() async {
+    return quoteService.fetchDailyQuotes();
+  }
 }

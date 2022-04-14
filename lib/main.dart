@@ -2,6 +2,7 @@ import 'package:daily_quotes/bloc/bloc/auth_bloc.dart';
 import 'package:daily_quotes/constants/app_constants.dart';
 import 'package:daily_quotes/cubit/quotes_cubit.dart';
 import 'package:daily_quotes/data/repositories/auth_repository.dart';
+import 'package:daily_quotes/repositories/data_repository.dart';
 import 'package:daily_quotes/widgets/bottom_tab_bar_widget.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
@@ -24,7 +25,7 @@ class MyApp extends StatelessWidget {
       child: MultiBlocProvider(
         providers: [
           BlocProvider(
-            create: (quoteCubit) => QuotesCubit(),
+            create: (quoteCubit) => QuotesCubit(QuoteRepository()),
           ),
           BlocProvider(
             create: (authBloc) => AuthBloc(
