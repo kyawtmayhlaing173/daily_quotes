@@ -1,15 +1,17 @@
 import 'package:daily_quotes/constants/app_constants.dart';
+import 'package:daily_quotes/screens/edit_quote_text_screen.dart';
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 
-class AddQuoteScreen extends StatefulWidget {
-  const AddQuoteScreen({Key? key}) : super(key: key);
+class EditQuoteBackgroundScreen extends StatefulWidget {
+  const EditQuoteBackgroundScreen({Key? key}) : super(key: key);
 
   @override
-  State<AddQuoteScreen> createState() => _AddQuoteScreenState();
+  State<EditQuoteBackgroundScreen> createState() =>
+      _EditQuoteBackgroundScreenState();
 }
 
-class _AddQuoteScreenState extends State<AddQuoteScreen> {
+class _EditQuoteBackgroundScreenState extends State<EditQuoteBackgroundScreen> {
   List patternList = [
     'https://i.pinimg.com/750x/1a/5e/08/1a5e08d96569914066d8d72c9d4074c5.jpg',
     'https://i.pinimg.com/750x/ce/82/b4/ce82b4c31b7ef1e83d9abd5871a19887.jpg',
@@ -39,6 +41,7 @@ class _AddQuoteScreenState extends State<AddQuoteScreen> {
   int _selectedIndex = 0;
   String _selectedPattern =
       'https://i.pinimg.com/750x/1a/5e/08/1a5e08d96569914066d8d72c9d4074c5.jpg';
+  final _quoteController = TextEditingController();
 
   @override
   Widget build(BuildContext context) {
@@ -79,7 +82,18 @@ class _AddQuoteScreenState extends State<AddQuoteScreen> {
         ),
         Expanded(child: Container()),
         TextButton(
-          onPressed: () {},
+          onPressed: () {
+            // print("To be passed value is $passedData");
+            Navigator.push(
+              context,
+              MaterialPageRoute(
+                builder: (context) => EditQuoteTextScreen(
+                  selectedPattern: _selectedPattern,
+                  selectedText: _quoteController.text,
+                ),
+              ),
+            );
+          },
           child: const Text(
             "Next",
             style: TextStyle(color: kPrimaryColor, fontWeight: FontWeight.bold),
@@ -95,6 +109,7 @@ class _AddQuoteScreenState extends State<AddQuoteScreen> {
       height: 300,
       decoration: BoxDecoration(
         color: Colors.blueAccent,
+        borderRadius: BorderRadius.circular(15),
         image: DecorationImage(
           image: NetworkImage(_selectedPattern),
           fit: BoxFit.cover,
@@ -104,6 +119,7 @@ class _AddQuoteScreenState extends State<AddQuoteScreen> {
         padding: const EdgeInsets.all(10),
         child: Center(
           child: TextField(
+            controller: _quoteController,
             textAlignVertical: TextAlignVertical.center,
             decoration: const InputDecoration(
               border: InputBorder.none,
