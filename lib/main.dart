@@ -1,6 +1,6 @@
 import 'package:daily_quotes/bloc/bloc/auth_bloc.dart';
+import 'package:daily_quotes/bloc/quote_bloc/bloc/quote_bloc.dart';
 import 'package:daily_quotes/constants/app_constants.dart';
-import 'package:daily_quotes/cubit/quotes_cubit.dart';
 import 'package:daily_quotes/data/repositories/auth_repository.dart';
 import 'package:daily_quotes/repositories/data_repository.dart';
 import 'package:daily_quotes/widgets/bottom_tab_bar_widget.dart';
@@ -21,11 +21,11 @@ class MyApp extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return RepositoryProvider(
-      create: (context) => AuthRepository(),
+      create: (authContext) => AuthRepository(),
       child: MultiBlocProvider(
         providers: [
           BlocProvider(
-            create: (quoteCubit) => QuotesCubit(QuoteRepository()),
+            create: (quoteCubit) => QuoteBloc(QuoteRepository()),
           ),
           BlocProvider(
             create: (authBloc) => AuthBloc(

@@ -1,5 +1,6 @@
 import 'dart:math';
 
+import 'package:daily_quotes/bloc/quote_bloc/bloc/quote_bloc.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_staggered_grid_view/flutter_staggered_grid_view.dart';
@@ -21,21 +22,18 @@ class _QuotesListScreenState extends State<QuotesListScreen> {
   }
 
   Widget _quotesContainer() {
-    return BlocBuilder<QuotesCubit, QuotesState>(
+    return BlocBuilder<QuoteBloc, QuoteState>(
       builder: (context, state) {
-        if (state is QuotesInitial) {
-          context.read<QuotesCubit>().fetchDailyQuotes();
+        if (state is QuoteInitial) {
+          context.read<QuoteBloc>().add(GetQuoteRequested());
           return const Center(
             child: CircularProgressIndicator(),
           );
-        } else if (state is QuotesFetched) {
+        } else if (state is QuoteFetched) {
           return _quotesListContainer(state.quotes);
-        } else if (state is QuotesFetching) {
-          return const Center(
-            child: CircularProgressIndicator(),
-          );
         } else {
-          return const Text("404 Not Found");
+          return const Text(
+              "Sorry, something happens. Please try again later.");
         }
       },
     );

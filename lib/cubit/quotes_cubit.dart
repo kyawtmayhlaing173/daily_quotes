@@ -16,7 +16,6 @@ class QuotesCubit extends Cubit<QuotesState> {
   QuotesCubit(this.quoteRepository) : super(QuotesInitial());
 
   fetchDailyQuotes() async {
-    print("Fetch 1");
     try {
       quotes = await quoteRepository.fetchDailyQuotes();
       print("Quotes are, $quotes");
