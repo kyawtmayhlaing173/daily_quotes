@@ -1,6 +1,7 @@
 import 'dart:convert';
 
 import 'package:bloc/bloc.dart';
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:equatable/equatable.dart';
 import 'package:flutter/foundation.dart';
 
@@ -22,5 +23,20 @@ class QuoteBloc extends Bloc<QuoteEvent, QuoteState> {
         emit(QuoteError());
       }
     });
+
+    // on<AddQuoteRequested>((event, emit) async {
+    //   try {
+    //     Quote quote = Quote(
+    //       backgroundUrl: event.backgroundUrl,
+    //       quote: event.quote,
+    //       timestamp: event.timestamp,
+    //       source: event.source,
+    //     );
+    //     quoteRepository.addQuotes(quote);
+    //     emit(AddQuoteSuccess());
+    //   } catch (e) {
+    //     emit(QuoteError());
+    //   }
+    // });
   }
 }

@@ -6,8 +6,6 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_staggered_grid_view/flutter_staggered_grid_view.dart';
 import 'package:google_fonts/google_fonts.dart';
 
-import '../cubit/quotes_cubit.dart';
-
 class QuotesListScreen extends StatefulWidget {
   const QuotesListScreen({Key? key}) : super(key: key);
 
@@ -33,7 +31,8 @@ class _QuotesListScreenState extends State<QuotesListScreen> {
           return _quotesListContainer(state.quotes);
         } else {
           return const Text(
-              "Sorry, something happens. Please try again later.");
+            "Sorry, something happens. Please try again later.",
+          );
         }
       },
     );
@@ -63,13 +62,17 @@ class _QuotesListScreenState extends State<QuotesListScreen> {
       margin: const EdgeInsets.all(5),
       decoration: BoxDecoration(
         borderRadius: BorderRadius.circular(10),
-        color: RandomHexColor().colorRandom(),
+        // color: RandomHexColor().colorRandom(),
+        image: DecorationImage(
+          image: NetworkImage(quote.backgroundUrl),
+          fit: BoxFit.cover,
+        ),
       ),
       child: Center(
         child: Text(
           quote.quote,
           style: GoogleFonts.ptSans(
-            color: Colors.white,
+            color: Colors.black,
             fontSize: 18,
           ),
         ),

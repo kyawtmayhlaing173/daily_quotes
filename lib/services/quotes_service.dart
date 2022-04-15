@@ -10,4 +10,25 @@ class QuoteService {
         .map((docSnapshot) => Quote.fromDocumentSnapshot(docSnapshot))
         .toList();
   }
+
+  Future<bool> addQuotes(quote) async {
+    bool result = false;
+    final FirebaseFirestore firestore = FirebaseFirestore.instance;
+    await firestore
+        .collection("quotes")
+        .add({
+          "quote": quote.quote,
+          "backgroundUrl": quote.backgroundUrl,
+          "source": "weibo",
+          "timestamp": quote.timestamp,
+        })
+        .then(
+          (value) => result = true,
+        )
+        .catchError(
+          (err) => result = false,
+        );
+    print('is success, $result');
+    return result;
+  }
 }

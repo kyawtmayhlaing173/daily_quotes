@@ -1,7 +1,12 @@
+import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:daily_quotes/repositories/data_repository.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:google_fonts/google_fonts.dart';
 
+import '../bloc/quote_bloc/bloc/quote_bloc.dart';
 import '../constants/app_constants.dart';
+import '../models/quote.dart';
 
 class EditQuoteTextScreen extends StatefulWidget {
   final String selectedPattern;
@@ -26,6 +31,24 @@ class _EditQuoteTextScreenState extends State<EditQuoteTextScreen> {
     super.initState();
   }
 
+  addQuotes() async {
+    QuoteRepository quoteRepository = QuoteRepository();
+    Quote quote = Quote(
+      backgroundUrl: widget.selectedPattern,
+      quote: widget.selectedText,
+      timestamp: Timestamp.fromDate(DateTime.now()),
+      source: "weibo",
+    );
+    bool isSuccess = await quoteRepository.addQuotes(quote);
+    if (isSuccess) {
+      Navigator.pop(context);
+      Navigator.pop(context);
+      _showSnackBar("Yay! Success");
+    } else {
+      _showSnackBar("Oops! Error");
+    }
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -35,7 +58,7 @@ class _EditQuoteTextScreenState extends State<EditQuoteTextScreen> {
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
-            _editButtonContainer(),
+            _editButtonContainer(context),
             const Text(
               'Caption',
               style: TextStyle(
@@ -53,7 +76,7 @@ class _EditQuoteTextScreenState extends State<EditQuoteTextScreen> {
     );
   }
 
-  _editButtonContainer() {
+  _editButtonContainer(context) {
     return Row(
       children: [
         TextButton(
@@ -68,7 +91,9 @@ class _EditQuoteTextScreenState extends State<EditQuoteTextScreen> {
         ),
         Expanded(child: Container()),
         TextButton(
-          onPressed: () {},
+          onPressed: () {
+            addQuotes();
+          },
           child: const Text(
             "Post",
             style: TextStyle(color: kPrimaryColor, fontWeight: FontWeight.bold),
@@ -146,5 +171,17 @@ class _EditQuoteTextScreenState extends State<EditQuoteTextScreen> {
         ],
       ),
     );
+  }
+
+  _showSnackBar(message) {
+    final snackBar = SnackBar(
+      content: Text(message),
+      action: SnackBarAction(
+        label: 'OK',
+        onPressed: () {},
+      ),
+    );
+
+    ScaffoldMessenger.of(context).showSnackBar(snackBar);
   }
 }

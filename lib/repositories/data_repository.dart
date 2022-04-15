@@ -8,4 +8,9 @@ class QuoteRepository implements QuoteService {
   Future<List<Quote>> fetchDailyQuotes() async {
     return quoteService.fetchDailyQuotes();
   }
+
+  @override
+  Future<bool> addQuotes(quote) {
+    return quoteService.addQuotes(quote);
+  }
 }

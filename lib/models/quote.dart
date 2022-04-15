@@ -6,23 +6,29 @@ class Quote {
   String quote;
   String source;
   Timestamp timestamp;
+  String backgroundUrl;
+
   Quote({
     required this.quote,
     required this.source,
     required this.timestamp,
+    required this.backgroundUrl,
   });
 
   Quote copyWith({
     String? quote,
     String? source,
     Timestamp? timestamp,
+    String? backgroundUrl,
   }) {
     return Quote(
       quote: quote ?? this.quote,
       source: source ?? this.source,
-      timestamp: timestamp ?? Timestamp.fromDate(DateTime.now()),
-
-      // timestamp: timestamp ?? Timestamp.fromDate(DateTime.now()),
+      timestamp: timestamp ??
+          Timestamp.fromDate(
+            DateTime.now(),
+          ),
+      backgroundUrl: backgroundUrl ?? this.backgroundUrl,
     );
   }
 
@@ -31,19 +37,22 @@ class Quote {
       'quote': quote,
       'source': source,
       'timestamp': timestamp,
+      'backgroundUrl': backgroundUrl,
     };
   }
 
   Quote.fromDocumentSnapshot(DocumentSnapshot<Map<String, dynamic>> doc)
       : quote = doc.data()!["quote"],
         source = doc.data()!["source"],
-        timestamp = doc.data()!["timestamp"];
+        timestamp = doc.data()!["timestamp"],
+        backgroundUrl = doc.data()!["backgroundUrl"];
 
   factory Quote.fromMap(Map<String, dynamic> map) {
     return Quote(
       quote: map['quote'] ?? '',
       source: map['source'] ?? '',
       timestamp: map['timestamp'] ?? '',
+      backgroundUrl: map['backgroundUrl'] ?? '',
     );
   }
 
@@ -53,7 +62,7 @@ class Quote {
 
   @override
   String toString() {
-    return 'Quote(quote: $quote, source: $source, timestamp: $timestamp)';
+    return 'Quote(quote: $quote, source: $source, timestamp: $timestamp, backgroundUrl: $backgroundUrl)';
   }
 
   @override
@@ -63,7 +72,8 @@ class Quote {
     return other is Quote &&
         other.quote == quote &&
         other.source == source &&
-        other.timestamp == timestamp;
+        other.timestamp == timestamp &&
+        other.backgroundUrl == backgroundUrl;
   }
 
   @override

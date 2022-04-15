@@ -55,4 +55,6 @@ class QuoteFetched extends QuoteState {
   int get hashCode => quotes.hashCode;
 }
 
+class AddQuoteSuccess extends QuoteState {}
+
 class QuoteError extends QuoteState {}
