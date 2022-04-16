@@ -28,6 +28,7 @@ class _SignUpScreenState extends State<SignUpScreen> {
       body: BlocConsumer<AuthBloc, AuthState>(
         listener: (context, state) {},
         builder: (context, state) {
+          print("SignUp State is, $state");
           if (state is Loading) {
             log("State is Loading");
             return const Center(
@@ -94,7 +95,7 @@ class _SignUpScreenState extends State<SignUpScreen> {
               ),
             );
           }
-          return const Text("404 Not Found");
+          return const Text("Hello World Not Found");
         },
       ),
     );
@@ -144,8 +145,10 @@ class _SignUpScreenState extends State<SignUpScreen> {
           if (_formKey.currentState!.validate()) {
             BlocProvider.of<AuthBloc>(context).add(
               SignUpRequested(
-                  email: _emailController.text,
-                  password: _passwordController.text),
+                email: _emailController.text,
+                password: _passwordController.text,
+                userName: _userNameController.text,
+              ),
             );
           }
         },

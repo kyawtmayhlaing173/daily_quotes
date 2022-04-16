@@ -1,6 +1,7 @@
 import 'package:daily_quotes/screens/edit_quote_background_screen.dart';
 import 'package:daily_quotes/screens/login_screen.dart';
 import 'package:daily_quotes/screens/profile_screen.dart';
+import 'package:daily_quotes/screens/signup_screen.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
@@ -29,6 +30,8 @@ class _BottomTabBarWidgetState extends State<BottomTabBarWidget> {
     const EditQuoteBackgroundScreen(),
     BlocBuilder<AuthBloc, AuthState>(
       builder: (context, state) {
+        print("state is, ${state}");
+
         if (FirebaseAuth.instance.currentUser != null) {
           return const ProfileScreen();
         } else if (state is UnAuthenticated) {

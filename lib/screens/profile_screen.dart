@@ -1,6 +1,7 @@
 import 'dart:developer';
 
 import 'package:daily_quotes/constants/app_constants.dart';
+import 'package:daily_quotes/data/repositories/auth_repository.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:google_fonts/google_fonts.dart';
@@ -15,63 +16,86 @@ class ProfileScreen extends StatefulWidget {
 }
 
 class _ProfileScreenState extends State<ProfileScreen> {
+  AuthRepository _authRepository = AuthRepository();
+  var user;
+
+  @override
+  void initState() {
+    getCurrentUser();
+    super.initState();
+  }
+
+  getCurrentUser() async {
+    user = await _authRepository.getCurrentUser();
+    return user;
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      body: Stack(
-        alignment: AlignmentDirectional.center,
-        children: <Widget>[
-          Positioned(
-            top: 0.0,
-            child: Container(
-              height: 200,
-              width: MediaQuery.of(context).size.width,
-              decoration: BoxDecoration(
-                color: kPrimaryColor,
-                borderRadius: BorderRadius.circular(20),
-              ),
-            ), //Icon
-          ),
-          Positioned(
-            top: 100,
-            child: Container(
-              height: 150,
-              width: 350,
-              decoration: BoxDecoration(
-                color: Colors.white,
-                borderRadius: BorderRadius.circular(20),
-              ),
-              child: _profileCardWidget(),
-            ),
-          ),
-          Positioned(
-            bottom: 30,
-            child: SizedBox(
-              width: MediaQuery.of(context).size.width / 2,
-              height: 55,
-              child: ElevatedButton(
-                onPressed: () {
-                  log("Logged out button is pressed");
-                  // BlocProvider.of<AuthBloc>(context).add(SignOutRequested());
-                  BlocProvider.of<AuthBloc>(context).add(
-                    SignOutRequested(),
-                  );
-                },
-                child: const Text(
-                  "Log Out",
-                  style: TextStyle(fontSize: 16),
+      body: FutureBuilder(
+        future: getCurrentUser(),
+        builder: (context, snapshot) {
+          if (snapshot.hasData) {
+            return Stack(
+              alignment: AlignmentDirectional.center,
+              children: <Widget>[
+                Positioned(
+                  top: 0.0,
+                  child: Container(
+                    height: 200,
+                    width: MediaQuery.of(context).size.width,
+                    decoration: BoxDecoration(
+                      color: kPrimaryColor,
+                      borderRadius: BorderRadius.circular(20),
+                    ),
+                  ), //Icon
                 ),
-                style: ButtonStyle(
-                  shape: MaterialStateProperty.all(
-                    RoundedRectangleBorder(
-                      borderRadius: BorderRadius.circular(10),
+                Positioned(
+                  top: 100,
+                  child: Container(
+                    height: 150,
+                    width: 350,
+                    decoration: BoxDecoration(
+                      color: Colors.white,
+                      borderRadius: BorderRadius.circular(20),
+                    ),
+                    child: _profileCardWidget(),
+                  ),
+                ),
+                Positioned(
+                  bottom: 30,
+                  child: SizedBox(
+                    width: MediaQuery.of(context).size.width / 2,
+                    height: 55,
+                    child: ElevatedButton(
+                      onPressed: () {
+                        log("Logged out button is pressed");
+                        // BlocProvider.of<AuthBloc>(context).add(SignOutRequested());
+                        BlocProvider.of<AuthBloc>(context).add(
+                          SignOutRequested(),
+                        );
+                      },
+                      child: const Text(
+                        "Log Out",
+                        style: TextStyle(fontSize: 16),
+                      ),
+                      style: ButtonStyle(
+                        shape: MaterialStateProperty.all(
+                          RoundedRectangleBorder(
+                            borderRadius: BorderRadius.circular(10),
+                          ),
+                        ),
+                      ),
                     ),
                   ),
                 ),
-              ),
-            ),
-          ),
-        ],
+              ],
+            );
+          } else {
+            return const Center(child: CircularProgressIndicator());
+          }
+        },
       ),
     );
   }
@@ -102,7 +126,7 @@ class _ProfileScreenState extends State<ProfileScreen> {
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
                 Text(
-                  "Kyawt May Hlaing",
+                  user['email'],
                   style:
                       GoogleFonts.montserrat(color: Colors.black, fontSize: 20),
                 ),
