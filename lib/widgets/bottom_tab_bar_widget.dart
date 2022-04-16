@@ -28,22 +28,9 @@ class _BottomTabBarWidgetState extends State<BottomTabBarWidget> {
   static final List<Widget> _widgetOptions = <Widget>[
     const HomeScreen(),
     const EditQuoteBackgroundScreen(),
-    BlocBuilder<AuthBloc, AuthState>(
-      builder: (context, state) {
-        print("state is, ${state}");
-
-        if (FirebaseAuth.instance.currentUser != null) {
-          return const ProfileScreen();
-        } else if (state is UnAuthenticated) {
-          return const LoginScreen();
-        } else if (state is Authenticated) {
-          return const ProfileScreen();
-        }
-        return const Center(
-          child: CircularProgressIndicator(),
-        );
-      },
-    ),
+    FirebaseAuth.instance.currentUser != null
+        ? const ProfileScreen()
+        : const LoginScreen(),
     const Text(
       'Index 3: University',
       style: optionStyle,

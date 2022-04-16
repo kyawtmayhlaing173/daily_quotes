@@ -2,6 +2,7 @@ import 'dart:developer';
 
 import 'package:daily_quotes/bloc/bloc/auth_bloc.dart';
 import 'package:daily_quotes/constants/app_constants.dart';
+import 'package:daily_quotes/screens/profile_screen.dart';
 import 'package:daily_quotes/screens/signup_screen.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
@@ -26,7 +27,21 @@ class _LoginScreenState extends State<LoginScreen> {
   Widget build(BuildContext context) {
     return Scaffold(
       body: BlocConsumer<AuthBloc, AuthState>(
-        listener: (context, state) {},
+        listener: (context, state) {
+          if (state is Authenticated) {
+            Navigator.pushReplacement(
+              context,
+              MaterialPageRoute(
+                builder: (context) {
+                  return BlocProvider.value(
+                    value: BlocProvider.of<AuthBloc>(context),
+                    child: const ProfileScreen(),
+                  );
+                },
+              ),
+            );
+          }
+        },
         builder: (context, state) {
           if (state is Loading) {
             log("State is Loading");

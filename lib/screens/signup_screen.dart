@@ -7,6 +7,7 @@ import 'package:google_fonts/google_fonts.dart';
 
 import '../bloc/bloc/auth_bloc.dart';
 import '../widgets/input_field_widget.dart';
+import 'profile_screen.dart';
 
 class SignUpScreen extends StatefulWidget {
   const SignUpScreen({Key? key}) : super(key: key);
@@ -26,9 +27,22 @@ class _SignUpScreenState extends State<SignUpScreen> {
   Widget build(BuildContext context) {
     return Scaffold(
       body: BlocConsumer<AuthBloc, AuthState>(
-        listener: (context, state) {},
+        listener: (context, state) {
+          if (state is Authenticated) {
+            Navigator.pushReplacement(
+              context,
+              MaterialPageRoute(
+                builder: (context) {
+                  return BlocProvider.value(
+                    value: BlocProvider.of<AuthBloc>(context),
+                    child: const ProfileScreen(),
+                  );
+                },
+              ),
+            );
+          }
+        },
         builder: (context, state) {
-          print("SignUp State is, $state");
           if (state is Loading) {
             log("State is Loading");
             return const Center(
@@ -44,12 +58,17 @@ class _SignUpScreenState extends State<SignUpScreen> {
                     child: Column(
                       crossAxisAlignment: CrossAxisAlignment.start,
                       children: [
-                        const Text(
-                          "Cancel",
-                          style: TextStyle(
-                            fontSize: 14,
-                            fontWeight: FontWeight.bold,
-                            color: Color(0xFF787A91),
+                        GestureDetector(
+                          onTap: () {
+                            Navigator.pop(context);
+                          },
+                          child: const Text(
+                            "Cancel",
+                            style: TextStyle(
+                              fontSize: 14,
+                              fontWeight: FontWeight.bold,
+                              color: Color(0xFF787A91),
+                            ),
                           ),
                         ),
                         const SizedBox(height: 10),
