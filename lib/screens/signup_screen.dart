@@ -27,21 +27,7 @@ class _SignUpScreenState extends State<SignUpScreen> {
   Widget build(BuildContext context) {
     return Scaffold(
       body: BlocConsumer<AuthBloc, AuthState>(
-        listener: (context, state) {
-          if (state is Authenticated) {
-            Navigator.pushReplacement(
-              context,
-              MaterialPageRoute(
-                builder: (context) {
-                  return BlocProvider.value(
-                    value: BlocProvider.of<AuthBloc>(context),
-                    child: const ProfileScreen(),
-                  );
-                },
-              ),
-            );
-          }
-        },
+        listener: (context, state) {},
         builder: (context, state) {
           if (state is Loading) {
             log("State is Loading");
@@ -113,6 +99,8 @@ class _SignUpScreenState extends State<SignUpScreen> {
                 ),
               ),
             );
+          } else if (state is Authenticated) {
+            return const ProfileScreen();
           }
           return const Text("Hello World Not Found");
         },

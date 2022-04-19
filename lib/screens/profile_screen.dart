@@ -35,94 +35,68 @@ class _ProfileScreenState extends State<ProfileScreen> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      body: BlocListener<AuthBloc, AuthState>(
-        listener: (context, state) {
-          if (state is UnAuthenticated) {
-            Navigator.pushAndRemoveUntil(
-              context,
-              MaterialPageRoute(
-                builder: (BuildContext context) => const BottomTabBarWidget(
-                  title: "Daily Quotes",
-                ),
-              ),
-              (Route<dynamic> route) => route.isFirst,
-            );
-            // Navigator.pushReplacement(
-            //   context,
-            //   MaterialPageRoute(
-            //     builder: (context) {
-            //       return BlocProvider.value(
-            //         value: BlocProvider.of<AuthBloc>(context),
-            //         child: const LoginScreen(),
-            //       );
-            //     },
-            //   ),
-            // );
-          }
-        },
-        child: FutureBuilder(
-          future: getCurrentUser(),
-          builder: (context, snapshot) {
-            if (snapshot.hasData) {
-              return Stack(
-                alignment: AlignmentDirectional.center,
-                children: <Widget>[
-                  Positioned(
-                    top: 0.0,
-                    child: Container(
-                      height: 200,
-                      width: MediaQuery.of(context).size.width,
-                      decoration: BoxDecoration(
-                        color: kPrimaryColor,
-                        borderRadius: BorderRadius.circular(20),
-                      ),
-                    ), //Icon
-                  ),
-                  Positioned(
-                    top: 100,
-                    child: Container(
-                      height: 150,
-                      width: 350,
-                      decoration: BoxDecoration(
-                        color: Colors.white,
-                        borderRadius: BorderRadius.circular(20),
-                      ),
-                      child: _profileCardWidget(),
+      body: FutureBuilder(
+        future: getCurrentUser(),
+        builder: (context, snapshot) {
+          if (snapshot.hasData) {
+            return Stack(
+              alignment: AlignmentDirectional.center,
+              children: <Widget>[
+                Positioned(
+                  top: 0.0,
+                  child: Container(
+                    height: 200,
+                    width: MediaQuery.of(context).size.width,
+                    decoration: BoxDecoration(
+                      color: kPrimaryColor,
+                      borderRadius: BorderRadius.circular(20),
                     ),
+                  ), //Icon
+                ),
+                Positioned(
+                  top: 100,
+                  child: Container(
+                    height: 150,
+                    width: 350,
+                    decoration: BoxDecoration(
+                      color: Colors.white,
+                      borderRadius: BorderRadius.circular(20),
+                    ),
+                    child: _profileCardWidget(),
                   ),
-                  Positioned(
-                    bottom: 30,
-                    child: SizedBox(
-                      width: MediaQuery.of(context).size.width / 2,
-                      height: 55,
-                      child: ElevatedButton(
-                        onPressed: () {
-                          log("Logged out button is pressed");
-                          BlocProvider.of<AuthBloc>(context).add(
-                            SignOutRequested(),
-                          );
-                        },
-                        child: const Text(
-                          "Log Out",
-                          style: TextStyle(fontSize: 16),
-                        ),
-                        style: ButtonStyle(
-                          shape: MaterialStateProperty.all(
-                            RoundedRectangleBorder(
-                              borderRadius: BorderRadius.circular(10),
-                            ),
+                ),
+                Positioned(
+                  bottom: 30,
+                  child: SizedBox(
+                    width: MediaQuery.of(context).size.width / 2,
+                    height: 55,
+                    child: ElevatedButton(
+                      onPressed: () {
+                        log("Logged out button is pressed");
+                        BlocProvider.of<AuthBloc>(context).add(
+                          SignOutRequested(),
+                        );
+                      },
+                      child: const Text(
+                        "Log Out",
+                        style: TextStyle(fontSize: 16),
+                      ),
+                      style: ButtonStyle(
+                        shape: MaterialStateProperty.all(
+                          RoundedRectangleBorder(
+                            borderRadius: BorderRadius.circular(10),
                           ),
                         ),
                       ),
                     ),
                   ),
-                ],
-              );
-            } else {
-              return const Center(child: CircularProgressIndicator());
-            }
-          },
-        ),
+                ),
+              ],
+            );
+          } else {
+            return const Center(child: CircularProgressIndicator());
+          }
+        },
       ),
     );
   }

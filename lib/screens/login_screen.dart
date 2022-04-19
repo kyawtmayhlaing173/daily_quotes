@@ -28,19 +28,19 @@ class _LoginScreenState extends State<LoginScreen> {
     return Scaffold(
       body: BlocConsumer<AuthBloc, AuthState>(
         listener: (context, state) {
-          if (state is Authenticated) {
-            Navigator.pushReplacement(
-              context,
-              MaterialPageRoute(
-                builder: (context) {
-                  return BlocProvider.value(
-                    value: BlocProvider.of<AuthBloc>(context),
-                    child: const ProfileScreen(),
-                  );
-                },
-              ),
-            );
-          }
+          // if (state is Authenticated) {
+          // Navigator.pushReplacement(
+          //   context,
+          //   MaterialPageRoute(
+          //     builder: (context) {
+          //       return BlocProvider.value(
+          //         value: BlocProvider.of<AuthBloc>(context),
+          //         child: const ProfileScreen(),
+          //       );
+          //     },
+          //   ),
+          // );
+          // }
         },
         builder: (context, state) {
           if (state is Loading) {
@@ -103,6 +103,8 @@ class _LoginScreenState extends State<LoginScreen> {
                 ],
               ),
             );
+          } else if (state is Authenticated) {
+            return const ProfileScreen();
           }
           return const Text("404 Not Found");
         },
