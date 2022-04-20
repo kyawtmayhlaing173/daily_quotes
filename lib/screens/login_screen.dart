@@ -28,19 +28,19 @@ class _LoginScreenState extends State<LoginScreen> {
     return Scaffold(
       body: BlocConsumer<AuthBloc, AuthState>(
         listener: (context, state) {
-          // if (state is Authenticated) {
-          // Navigator.pushReplacement(
-          //   context,
-          //   MaterialPageRoute(
-          //     builder: (context) {
-          //       return BlocProvider.value(
-          //         value: BlocProvider.of<AuthBloc>(context),
-          //         child: const ProfileScreen(),
-          //       );
-          //     },
-          //   ),
-          // );
-          // }
+          if (state is Authenticated) {
+            Navigator.pushReplacement(
+              context,
+              MaterialPageRoute(
+                builder: (context) {
+                  return BlocProvider.value(
+                    value: BlocProvider.of<AuthBloc>(context),
+                    child: const ProfileScreen(),
+                  );
+                },
+              ),
+            );
+          }
         },
         builder: (context, state) {
           if (state is Loading) {
@@ -50,64 +50,66 @@ class _LoginScreenState extends State<LoginScreen> {
             );
           } else if (state is UnAuthenticated) {
             log("State is Unauthenticated");
-            return SafeArea(
-              child: CustomScrollView(
-                slivers: [
-                  SliverFillRemaining(
-                    hasScrollBody: false,
-                    child: Container(
-                      margin: const EdgeInsets.all(20),
-                      child: Form(
-                        key: _formKey,
-                        child: Column(
-                          crossAxisAlignment: CrossAxisAlignment.start,
-                          children: [
-                            const Text(
-                              "Welcome Back 👏",
-                              style: TextStyle(
-                                  color: kTextColor,
-                                  fontSize: 28,
-                                  fontWeight: FontWeight.bold),
-                            ),
-                            const SizedBox(height: 10),
-                            Text(
-                              'I am happy to see you. You can continue to login for managing your quotes',
-                              style: GoogleFonts.ptSans(
-                                fontWeight: FontWeight.bold,
-                                fontSize: 16,
-                                color: Colors.grey.shade400,
-                              ),
-                            ),
-                            const SizedBox(height: 30),
-                            InputField(
-                              hintText: "Email",
-                              controller: _emailController,
-                            ),
-                            const SizedBox(height: 20),
-                            InputField(
-                              hintText: "Password",
-                              controller: _passwordController,
-                            ),
-                            const SizedBox(height: 5),
-                            _forgotPasswordWidget(),
-                            const SizedBox(height: 50),
-                            _createAccountButtonWidget(),
-                            Expanded(child: Container()),
-                            _loginTextWidget(),
-                            const SizedBox(height: 30),
-                          ],
-                        ),
+            return _loginWidget();
+          }
+          return _loginWidget();
+        },
+      ),
+    );
+  }
+
+  Widget _loginWidget() {
+    return SafeArea(
+      child: CustomScrollView(
+        slivers: [
+          SliverFillRemaining(
+            hasScrollBody: false,
+            child: Container(
+              margin: const EdgeInsets.all(20),
+              child: Form(
+                key: _formKey,
+                child: Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: [
+                    const Text(
+                      "Welcome Back 👏",
+                      style: TextStyle(
+                          color: kTextColor,
+                          fontSize: 28,
+                          fontWeight: FontWeight.bold),
+                    ),
+                    const SizedBox(height: 10),
+                    Text(
+                      'I am happy to see you. You can continue to login for managing your quotes',
+                      style: GoogleFonts.ptSans(
+                        fontWeight: FontWeight.bold,
+                        fontSize: 16,
+                        color: Colors.grey.shade400,
                       ),
                     ),
-                  )
-                ],
+                    const SizedBox(height: 30),
+                    InputField(
+                      hintText: "Email",
+                      controller: _emailController,
+                    ),
+                    const SizedBox(height: 20),
+                    InputField(
+                      hintText: "Password",
+                      controller: _passwordController,
+                    ),
+                    const SizedBox(height: 5),
+                    _forgotPasswordWidget(),
+                    const SizedBox(height: 50),
+                    _createAccountButtonWidget(),
+                    Expanded(child: Container()),
+                    _loginTextWidget(),
+                    const SizedBox(height: 30),
+                  ],
+                ),
               ),
-            );
-          } else if (state is Authenticated) {
-            return const ProfileScreen();
-          }
-          return const Text("404 Not Found");
-        },
+            ),
+          )
+        ],
       ),
     );
   }

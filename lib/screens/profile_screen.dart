@@ -73,8 +73,13 @@ class _ProfileScreenState extends State<ProfileScreen> {
                     child: ElevatedButton(
                       onPressed: () {
                         log("Logged out button is pressed");
-                        BlocProvider.of<AuthBloc>(context).add(
-                          SignOutRequested(),
+                        BlocProvider.of<AuthBloc>(context)
+                            .add(SignOutRequested());
+                        Navigator.pushReplacement(
+                          context,
+                          MaterialPageRoute(
+                            builder: (context) => const LoginScreen(),
+                          ),
                         );
                       },
                       child: const Text(
